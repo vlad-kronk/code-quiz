@@ -1,0 +1,58 @@
+:root {
+    --dark: rgb(37, 27, 55);
+    --dark-accent: rgb(55, 41, 72);
+    --light-accent: rgb(255, 202, 202);
+    --light: rgb(255, 236, 239);
+}
+
+html {
+    font-family: Quicksand, serif;
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav p {
+    display: block;
+    text-align: center;
+    margin: 15px;
+    padding: 15px 30px;
+}
+
+#quiz-content {
+    width: 50%;
+    margin: auto;
+}
+
+#quiz-content ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.btn {
+    background-color: var(--dark);
+    color: var(--light-accent);
+    font-family: Quicksand, serif;
+    font-size: 16px;
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    padding: 8px 11px;
+    margin: 5px 0 5px 15px;
+}
+
+.btn:hover {
+    background-color: var(--dark-accent);
+}
