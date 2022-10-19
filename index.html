@@ -13,26 +13,44 @@
 		<link rel="stylesheet" href="./assets/styles/style.css" />
 	</head>
 	<body>
-		<header class="nav">
-			<p id="hs-btn">View Highscores</p>
-			<p id="timer">Timer: 30</p>
-		</header>
-
-		<section id="quiz-content">
-			<header>
-				<h1>Example Header</h1>
-				<h2>Quiz Question</h2>
+		<div class="splash">
+			<!-- <header class="splash-header">
+				<h1>Welcome to the coding quiz!</h1>
+				<p>
+					Answer as many questions as you can in 30 seconds. Answering
+					wrong will subtract time from the clock.
+				</p>
 			</header>
-			<ul>
-				<button class="btn" id="option">Option 1</button>
-				<button class="btn" id="option">Option 2</button>
-				<button class="btn" id="option">Option 3</button>
-				<button class="btn" id="option">Option 4</button>
-			</ul>
-			<footer>
-				<h3 id="answer">Correct!</h3>
-			</footer>
-		</section>
+
+			<section class="splash-content">
+				<button class="btn" id="start-btn">Start</button>
+				<button class="btn" id="hs-btn">View Highscores</button>
+			</section> -->
+		</div>
+
+		<div class="quiz">
+			<header class="quiz-header">
+				<button class="btn" id="hs-btn">View Highscores</button>
+				<p id="timer">Timer: 30</p>
+			</header>
+
+			<section class="quiz-content">
+				<header>
+					<h1 id="question-num">Example Header</h1>
+					<h2 id="question">Quiz Question</h2>
+				</header>
+				<ul>
+					<button class="btn" id="option1">Option 1</button>
+					<button class="btn" id="option2">Option 2</button>
+					<button class="btn" id="option3">Option 3</button>
+					<button class="btn" id="option4">Option 4</button>
+				</ul>
+			</section>
+		</div>
+
+		<div class="form">
+			<header class="form-header"></header>
+		</div>
 
 		<script src="assets/scripts/script.js"></script>
 	</body>
