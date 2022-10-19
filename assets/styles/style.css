@@ -1,3 +1,5 @@
+/* general */
+
 :root {
     --dark: rgb(37, 27, 55);
     --dark-accent: rgb(55, 41, 72);
@@ -32,7 +34,7 @@ body {
     background-color: var(--dark-accent);
 }
 
-h1, h2{
+h1, h2, h3{
     padding: 10px 0px;
     font-size: 3.5rem;
     font-weight: 600;
@@ -41,15 +43,26 @@ h1, h2{
 h2 {
     font-size: 2.7rem;
     font-weight: 500;
-    /* padding-bottom: 0; */
 }
 
+h3 {
+    font-size: 5rem;
+    font-weight: 700;
+    text-align: center;
+    width: fit-content;
+    display: block;
+    padding: 10px 20px;
+    margin: 10px auto;
+    border: 2px solid var(--dark-accent);
+    border-radius: 5px;
+}
 
+p {
+    font-size: 1.6rem;
+    text-align: center;
+}
 
-
-
-
-
+/* splash screen */
 
 .splash-header {
     width: fit-content;
@@ -57,11 +70,6 @@ h2 {
 }
 
 .splash-header h1 {
-    text-align: center;
-}
-
-.splash-header p {
-    font-size: 1.6rem;
     text-align: center;
 }
 
@@ -75,14 +83,7 @@ h2 {
     width: 200px;
 }
 
-
-
-
-
-
-
-
-
+/* quiz screen */
 
 .quiz-header {
     display: flex;
@@ -103,8 +104,6 @@ h2 {
 .quiz-content {
     width: 50%;
     margin: auto;
-    /* border-left: 2px solid var(--dark-accent);
-    border-radius: 10px; */
 }
 
 .quiz-content ul {
@@ -112,4 +111,43 @@ h2 {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
+}
+
+/* form screen */
+
+.form-header {
+    margin: 100px auto 50px auto;
+}
+
+.form-header h1 {
+    text-align: center;
+}
+
+.form-content form {
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.form-content label {
+    font-size: 2rem;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    padding: 11px 0;
+}
+
+.form-content input[type="text"] {
+    all: unset;
+    font-size: 2rem;
+    display: inline-block;
+    background-color: var(--dark-accent);
+    padding-left: 10px;
+    margin-right: 50px;
+}
+
+.form-content .btn {
+    justify-self: flex-end;
+    font-size: 2rem;
 }

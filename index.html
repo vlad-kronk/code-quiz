@@ -29,7 +29,7 @@
 		</div>
 
 		<div class="quiz">
-			<header class="quiz-header">
+			<!-- <header class="quiz-header">
 				<button class="btn" id="hs-btn">View Highscores</button>
 				<p id="timer">Timer: 30</p>
 			</header>
@@ -45,11 +45,34 @@
 					<button class="btn" id="option3">Option 3</button>
 					<button class="btn" id="option4">Option 4</button>
 				</ul>
-			</section>
+			</section> -->
 		</div>
 
 		<div class="form">
-			<header class="form-header"></header>
+			<header class="form-header">
+				<h1>Save your score!</h1>
+				<h3 id="score">8</h3>
+			</header>
+
+			<section class="form-content">
+				<form>
+					<label for="name">Name: </label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						placeholder="First Last"
+						required
+						autofocus
+					/>
+					<input
+						class="btn"
+						type="submit"
+						id="submit-btn"
+						value="Save"
+					/>
+				</form>
+			</section>
 		</div>
 
 		<script src="assets/scripts/script.js"></script>
