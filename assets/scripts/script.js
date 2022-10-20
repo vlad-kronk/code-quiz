@@ -109,6 +109,7 @@ function quiz() {
 
     for (var i = 0; i < qDict.questions.length; i++) {
         ask(i);
+        //want to pause here until one of the answer options is selected
     }
 
 }
