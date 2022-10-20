@@ -24,6 +24,11 @@ var formEl = document.querySelector("form");
 var nameEl = document.querySelector("#name-field");
 var submitButtonEl = document.querySelector("#submit-btn");
 
+// highscore screen hooks
+var hsScreenEl = document.querySelector(".highscore");
+var hsTableEl = document.querySelector("table");
+var hsBackButtonEl = document.querySelector(".highscore button");
+
 // console.log(splashScreenEl);
 // console.log(startButtonEl);
 // console.log(hsButtonEl);
@@ -62,8 +67,19 @@ var qDict = {
 
 var questionCounter = 0;
 var globalScore = 0;
+var timerInterval;
+var globalTimer = 30;
 
 // helper functions
+
+// resets variables
+function resetVars() {
+    questionCounter = 0;
+    globalScore = 0;
+    globalTimer = 30;
+    clearInterval(timerInterval);
+}
+
 
 // presents a question and the answer options
 function ask(i) {
@@ -109,6 +125,7 @@ function logScore(event) {
     event.preventDefault();
     var key = nameEl.value;
     localStorage.setItem(key, globalScore);
+    resetVars();
     splash();
 }
 
@@ -122,16 +139,17 @@ function splash() {
 
 function quiz() {
     // show quiz screen, hide other screens
+    timerEl.textContent = "Timer: " + globalTimer;
+
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "block";
     formScreenEl.style.display = "none";
 
-    var timer = 30;
 
-    setInterval(function() {
-        timerEl.textContent = "Timer: " + timer;
-        if (timer > 0) {
-            timer--;
+    timerInterval = setInterval(function() {
+        timerEl.textContent = "Timer: " + globalTimer;
+        if (globalTimer > 0) {
+            globalTimer--;
         } else {
             clearInterval();
             form(globalScore);
@@ -154,6 +172,12 @@ function form(score) {
 
 }
 
+function highscore() {
+
+    var highscores = 
+
+}
+
 function main() {
 
     splash();
@@ -164,4 +188,4 @@ function main() {
 
 }
 
-main();
+// main();
