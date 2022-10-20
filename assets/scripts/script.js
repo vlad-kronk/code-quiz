@@ -174,7 +174,7 @@ function form(score) {
 
 function highscore() {
 
-    var highscores = 
+    var highscores;
 
 }
 
