@@ -1,7 +1,9 @@
 // initialize DOM hooks
 
 // root hooks
-var rootEl = document.querySelector(":root");
+var correctColor = getComputedStyle(document.documentElement).getPropertyValue('--dark-correct');
+var incorrectColor = getComputedStyle(document.documentElement).getPropertyValue('--dark-incorrect');
+var buttonBgColor = getComputedStyle(document.documentElement).getPropertyValue('--dark-accent');
 
 // splash screen hooks
 var splashScreenEl = document.querySelector(".splash");
@@ -18,6 +20,7 @@ var optionsListEl = document.querySelector("ul");
 // form screen hooks
 var formScreenEl = document.querySelector(".form");
 var scoreEl = document.getElementById("score");
+var formEl = document.querySelector("form");
 var nameEl = document.querySelector("#name-field");
 var submitButtonEl = document.querySelector("#submit-btn");
 
@@ -41,7 +44,7 @@ var qDict = {
         [":", ".", "#", "@"],
         ["background-color", "text-color", "color", "font-color"],
         ["var", "function", "const", "for"],
-        ["true", "false", "", ""],
+        ["true", "false"],
         ["<nest>", "<iframe>", "<frame>", "<page>"]
     ],
 
@@ -55,24 +58,58 @@ var qDict = {
     ]
 }
 
+// global variables
+
+var questionCounter = 0;
+var globalScore = 0;
+
 // helper functions
 
 // presents a question and the answer options
 function ask(i) {
     questionNumEl.textContent = "Question " + (i + 1);
     questionEl.textContent = qDict.questions[i];
+    document.querySelectorAll("ul button").forEach(button => {
+        button.remove();
+    })
+
     for (var j = 0; j < qDict.options[i].length; j++) {
         var tempEl = document.createElement("button");
         tempEl.setAttribute("class", "btn");
         tempEl.textContent = "" + qDict.options[i][j];
-        console.log(tempEl);
         optionsListEl.append(tempEl);
     }
+
 }
 
+function play() {
+    ask(questionCounter);
+    var options = document.querySelectorAll("ul button");
+    options.forEach(button => {
+        button.addEventListener("click", event => {
+            if (button.textContent === qDict.answers[questionCounter]) {
+                console.log("correct");
+                globalScore++;
+                // button.style.backgroundColor = "" + correctColor + ";";
+                // button.style.transition = "0.2s ease;";
+                // button.style.backgroundColor = "" + buttonBgColor + ";";
+                // button.style.transition = null;
+            } else {
+                console.log("incorrect");
+            }
 
-function init() {
+            if (questionCounter < qDict.questions.length-1) { questionCounter++; play(); }
+            else { form(globalScore); }
+        })
+    })
+    
+}
 
+function logScore(event) {
+    event.preventDefault();
+    var key = nameEl.value;
+    localStorage.setItem(key, globalScore);
+    splash();
 }
 
 function splash() {
@@ -81,10 +118,6 @@ function splash() {
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "none";
 
-    startButtonEl.addEventListener("click", function() {
-        var score = quiz();
-        // form(score);
-    });
 }
 
 function quiz() {
@@ -94,24 +127,19 @@ function quiz() {
     formScreenEl.style.display = "none";
 
     var timer = 30;
-    var score = 0;
 
-
-    var x = setInterval(function() {
+    setInterval(function() {
         timerEl.textContent = "Timer: " + timer;
         if (timer > 0) {
             timer--;
         } else {
             clearInterval();
-            return score;
+            form(globalScore);
+            return;
         }
     }, 1000);
 
-    for (var i = 0; i < qDict.questions.length; i++) {
-        ask(i);
-        //want to pause here until one of the answer options is selected
-    }
-
+    play();
 }
 
 function form(score) {
@@ -120,8 +148,20 @@ function form(score) {
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "block";
 
+    scoreEl.textContent = globalScore;
+
+    formEl.addEventListener("submit", logScore);
+
 }
 
-init();
+function main() {
 
-splash();
+    splash();
+ 
+    startButtonEl.addEventListener("click", function() {
+        quiz();
+    });
+
+}
+
+main();
