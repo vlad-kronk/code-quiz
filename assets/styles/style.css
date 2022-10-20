@@ -5,6 +5,8 @@
     --dark-accent: rgb(55, 41, 72);
     --light-accent: rgb(255, 202, 202);
     --light: rgb(255, 236, 239);
+    --dark-correct: rgb(31, 54, 32);
+    --dark-incorrect: rgb(72, 41, 41);
 }
 
 html {
@@ -28,6 +30,7 @@ body {
     border: 0;
     border-radius: 5px;
     padding: 11px 17px;
+    min-width: 100px;
 }
 
 .btn:hover {
@@ -64,6 +67,10 @@ p {
 
 /* splash screen */
 
+.splash {
+    display: block; /* change to none in JS */
+}
+
 .splash-header {
     width: fit-content;
     margin: 100px auto 50px auto;
@@ -84,6 +91,10 @@ p {
 }
 
 /* quiz screen */
+
+/* .quiz {
+    display: none;
+} */
 
 .quiz-header {
     display: flex;
@@ -113,7 +124,16 @@ p {
     padding: 10px;
 }
 
+.quiz-content ul button {
+    text-align: left;
+    min-width: 200px;
+}
+
 /* form screen */
+
+/* .form {
+    display: none;
+} */
 
 .form-header {
     margin: 100px auto 50px auto;
