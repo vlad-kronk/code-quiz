@@ -70,6 +70,8 @@ var globalScore = 0;
 var timerInterval;
 var globalTimer = 30;
 
+var highscores = JSON.parse(localStorage.getItem("scores")) || [];
+
 // helper functions
 
 // resets variables
@@ -112,6 +114,7 @@ function play() {
                 // button.style.transition = null;
             } else {
                 console.log("incorrect");
+                globalTimer -= 2;
             }
 
             if (questionCounter < qDict.questions.length-1) { questionCounter++; play(); }
@@ -121,10 +124,39 @@ function play() {
     
 }
 
+
+// 
 function logScore(event) {
     event.preventDefault();
-    var key = nameEl.value;
-    localStorage.setItem(key, globalScore);
+    
+    // grab high scores from storage
+    highscores = JSON.parse(localStorage.getItem("scores"));
+
+    // insert the players score at the beginning of the array
+    highscores.unshift({name: nameEl.value, score: globalScore});
+    
+    // key is 0, starting pos of current score
+    var key = 0;
+
+    // iterate over the array, starting from the item after the current score
+    for (var i = 1; i < highscores.length; i++) {
+        // if the iterator score is greater than the key score, swap them
+        if (highscores[i].score > highscores[key].score) {
+            var temp = highscores[key];
+            highscores[key] = highscores[i];
+            highscores[i] = temp;
+            key = i;
+        }
+        // if the iterator score is lower than the key score, sort is done
+        else {
+            break;
+        }
+    }
+
+    // store sorted array in local storage
+    localStorage.setItem("scores", JSON.stringify(highscores));
+
+    // reset variables and head back to splash screen
     resetVars();
     splash();
 }
@@ -134,6 +166,15 @@ function splash() {
     splashScreenEl.style.display = "block";
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "none";
+    hsScreenEl.style.display = "none";
+
+    startButtonEl.addEventListener("click", function() {
+        quiz();
+    });
+
+    hsButtonEl[0].addEventListener("click", function() {
+        highscore();
+    });
 
 }
 
@@ -144,7 +185,11 @@ function quiz() {
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "block";
     formScreenEl.style.display = "none";
+    hsScreenEl.style.display = "none";
 
+    hsButtonEl[1].addEventListener("click", function() {
+        highscore();
+    });
 
     timerInterval = setInterval(function() {
         timerEl.textContent = "Timer: " + globalTimer;
@@ -165,6 +210,7 @@ function form(score) {
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "block";
+    hsScreenEl.style.display = "none";
 
     scoreEl.textContent = globalScore;
 
@@ -173,19 +219,43 @@ function form(score) {
 }
 
 function highscore() {
+    splashScreenEl.style.display = "none";
+    quizScreenEl.style.display = "none";
+    formScreenEl.style.display = "none";
+    hsScreenEl.style.display = "block";
 
-    var highscores;
+    resetVars();
+    
+    
+
+    for(let i = 0; i < highscores.length; i++) {
+        // display high scores
+        let lastRow = hsTableEl.insertRow();
+        lastRow.insertCell().textContent = highscores[i].name;
+        lastRow.insertCell().textContent = highscores[i].score;
+    }
+
+    hsBackButtonEl.addEventListener("click", function() {
+
+        let rows = document.querySelectorAll("tr");
+        console.log(rows);
+        for(var i = 1; i < rows.length; i++) {
+            // var cells = rows[i].children;
+            // cells.forEach(cell, function() {
+            //     cell.remove();
+            // })
+            rows[i].remove();
+        }
+
+        splash();
+    });
 
 }
 
 function main() {
 
     splash();
- 
-    startButtonEl.addEventListener("click", function() {
-        quiz();
-    });
 
 }
 
-// main();
+main();
