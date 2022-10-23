@@ -8,7 +8,7 @@ var buttonBgColor = getComputedStyle(document.documentElement).getPropertyValue(
 // splash screen hooks
 var splashScreenEl = document.querySelector(".splash");
 var startButtonEl = document.querySelector("#start-btn");
-var hsButtonEl = document.querySelectorAll("#hs-btn");
+// var hsButtonEl = document.querySelectorAll("#hs-btn");
 
 // quiz screen hooks
 var quizScreenEl = document.querySelector(".quiz");
@@ -122,15 +122,14 @@ function splash() {
     splashScreenEl.style.display = "block";
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "none";
-    hsScreenEl.style.display = "none";
 
     startButtonEl.addEventListener("click", function() {
         quiz();
     });
 
-    hsButtonEl[0].addEventListener("click", function() {
-        highscore();
-    });
+    // hsButtonEl[0].addEventListener("click", function() {
+    //     highscore();
+    // });
 
 }
 
@@ -139,7 +138,6 @@ function quiz() {
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "block";
     formScreenEl.style.display = "none";
-    hsScreenEl.style.display = "none";
 
     var timer = 30;
 
@@ -162,7 +160,6 @@ function form(score) {
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "block";
-    hsScreenEl.style.display = "none";
 
     scoreEl.textContent = globalScore;
 
