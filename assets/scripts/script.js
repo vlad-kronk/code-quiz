@@ -24,11 +24,6 @@ var formEl = document.querySelector("form");
 var nameEl = document.querySelector("#name-field");
 var submitButtonEl = document.querySelector("#submit-btn");
 
-// highscore screen hooks
-var hsScreenEl = document.querySelector(".highscore");
-var hsTableEl = document.querySelector("table");
-var hsBackButtonEl = document.querySelector(".highscore button");
-
 // console.log(splashScreenEl);
 // console.log(startButtonEl);
 // console.log(hsButtonEl);
@@ -67,21 +62,10 @@ var qDict = {
 
 var questionCounter = 0;
 var globalScore = 0;
-var timerInterval;
-var globalTimer = 30;
 
 var highscores = JSON.parse(localStorage.getItem("scores")) || [];
 
 // helper functions
-
-// resets variables
-function resetVars() {
-    questionCounter = 0;
-    globalScore = 0;
-    globalTimer = 30;
-    clearInterval(timerInterval);
-}
-
 
 // presents a question and the answer options
 function ask(i) {
@@ -128,36 +112,8 @@ function play() {
 // 
 function logScore(event) {
     event.preventDefault();
-    
-    // grab high scores from storage
-    highscores = JSON.parse(localStorage.getItem("scores"));
-
-    // insert the players score at the beginning of the array
-    highscores.unshift({name: nameEl.value, score: globalScore});
-    
-    // key is 0, starting pos of current score
-    var key = 0;
-
-    // iterate over the array, starting from the item after the current score
-    for (var i = 1; i < highscores.length; i++) {
-        // if the iterator score is greater than the key score, swap them
-        if (highscores[i].score > highscores[key].score) {
-            var temp = highscores[key];
-            highscores[key] = highscores[i];
-            highscores[i] = temp;
-            key = i;
-        }
-        // if the iterator score is lower than the key score, sort is done
-        else {
-            break;
-        }
-    }
-
-    // store sorted array in local storage
-    localStorage.setItem("scores", JSON.stringify(highscores));
-
-    // reset variables and head back to splash screen
-    resetVars();
+    var key = nameEl.value;
+    localStorage.setItem(key, globalScore);
     splash();
 }
 
@@ -180,21 +136,17 @@ function splash() {
 
 function quiz() {
     // show quiz screen, hide other screens
-    timerEl.textContent = "Timer: " + globalTimer;
-
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "block";
     formScreenEl.style.display = "none";
     hsScreenEl.style.display = "none";
 
-    hsButtonEl[1].addEventListener("click", function() {
-        highscore();
-    });
+    var timer = 30;
 
-    timerInterval = setInterval(function() {
-        timerEl.textContent = "Timer: " + globalTimer;
-        if (globalTimer > 0) {
-            globalTimer--;
+    setInterval(function() {
+        timerEl.textContent = "Timer: " + timer;
+        if (timer > 0) {
+            timer--;
         } else {
             clearInterval();
             form(globalScore);
@@ -215,40 +167,6 @@ function form(score) {
     scoreEl.textContent = globalScore;
 
     formEl.addEventListener("submit", logScore);
-
-}
-
-function highscore() {
-    splashScreenEl.style.display = "none";
-    quizScreenEl.style.display = "none";
-    formScreenEl.style.display = "none";
-    hsScreenEl.style.display = "block";
-
-    resetVars();
-    
-    
-
-    for(let i = 0; i < highscores.length; i++) {
-        // display high scores
-        let lastRow = hsTableEl.insertRow();
-        lastRow.insertCell().textContent = highscores[i].name;
-        lastRow.insertCell().textContent = highscores[i].score;
-    }
-
-    hsBackButtonEl.addEventListener("click", function() {
-
-        let rows = document.querySelectorAll("tr");
-        console.log(rows);
-        for(var i = 1; i < rows.length; i++) {
-            // var cells = rows[i].children;
-            // cells.forEach(cell, function() {
-            //     cell.remove();
-            // })
-            rows[i].remove();
-        }
-
-        splash();
-    });
 
 }
 

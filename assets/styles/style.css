@@ -93,6 +93,10 @@ p {
 
 /* quiz screen */
 
+/* .quiz {
+    display: none;
+} */
+
 .quiz-header {
     display: flex;
     justify-content: space-around;
@@ -127,6 +131,10 @@ p {
 }
 
 /* form screen */
+
+/* .form {
+    display: none;
+} */
 
 .form-header {
     margin: 100px auto 50px auto;
@@ -163,38 +171,4 @@ p {
 .form-content .btn {
     justify-self: flex-end;
     font-size: 2rem;
-}
-
-/* highscores */
-
-.highscore-header {
-    margin: 100px auto 30px auto;
-}
-
-.highscore-header h1 {
-    text-align: center;
-}
-
-.highscore-content {
-    width: 50%;
-    margin: 0 auto;
-    font-size: 2rem;
-}
-
-table {
-    width: 100%;
-}
-
-th, td {
-    border: 2px solid var(--light-accent);
-    width: 50%;
-    padding: 10px;
-}
-
-th {
-    font-weight: 600;
-}
-
-#back-btn {
-    margin: 20px auto;
 }
