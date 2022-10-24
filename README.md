@@ -22,6 +22,10 @@ As a University of Washington Coding Boot Camp student, it is my motivation to b
 
 ![The quiz consists of multiple choice questions and a timer.](./assets/images/quiz.png)
 
+## Credits
+
+Google fonts: <a href="https://fonts.google.com/specimen/Quicksand?vfquery=quicksand">Quicksand</a>
+
 ## License
 
 Please refer to the LICENSE in the repo.
