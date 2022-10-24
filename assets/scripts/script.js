@@ -8,7 +8,7 @@ var buttonBgColor = getComputedStyle(document.documentElement).getPropertyValue(
 // splash screen hooks
 var splashScreenEl = document.querySelector(".splash");
 var startButtonEl = document.querySelector("#start-btn");
-// var hsButtonEl = document.querySelectorAll("#hs-btn");
+var hsButtonEl = document.querySelector("#hs-btn");
 
 // quiz screen hooks
 var quizScreenEl = document.querySelector(".quiz");
@@ -23,10 +23,7 @@ var scoreEl = document.getElementById("score");
 var formEl = document.querySelector("form");
 var nameEl = document.querySelector("#name-field");
 var submitButtonEl = document.querySelector("#submit-btn");
-
-// console.log(splashScreenEl);
-// console.log(startButtonEl);
-// console.log(hsButtonEl);
+var savedTextEl = document.querySelector(".form-content h2");
 
 // initialize object to grab questions, options, and answers from
 var qDict = {
@@ -36,7 +33,12 @@ var qDict = {
         "How do you change text color in CSS?",
         "How do you declare a JavaScript constant?",
         "JavaScript is a strongly typed language.",
-        "What HTML tag creates a nested webpage?"
+        "What HTML tag creates a nested webpage?",
+        "Inside which HTML element do we put JavaScript?",
+        "Where is the correct place to insert a JavaScript?",
+        "What is the correct syntax for referring to a script called 'xxx.js'?",
+        "How do you write a comment in JavaScript?",
+        "What does the conditional ('4' == 4) evaulate to?"
     ],
 
     options: [
@@ -45,7 +47,12 @@ var qDict = {
         ["background-color", "text-color", "color", "font-color"],
         ["var", "function", "const", "for"],
         ["true", "false"],
-        ["<nest>", "<iframe>", "<frame>", "<page>"]
+        ["<nest>", "<iframe>", "<frame>", "<page>"],
+        ["<script>", "<javascript>", "<js>", "<scripting>"],
+        ["the <head>", "the <body>", "both are correct"],
+        ["<script href='xxx.js'>", "<script name='xxx.js'>", "<script src='xxx.js'>"],
+        ["`This is a comment", "//This is a comment", "..This is a comment", "<!--This is a comment-->"],
+        ["true", "false"]
     ],
 
     answers: [
@@ -54,7 +61,12 @@ var qDict = {
         "color",
         "const",
         "false",
-        "<iframe>"
+        "<iframe>",
+        "<script>",
+        "the <body>",
+        "<script src='xxx.js'>",
+        "//This is a comment",
+        "true"
     ]
 }
 
@@ -62,10 +74,19 @@ var qDict = {
 
 var questionCounter = 0;
 var globalScore = 0;
+var timerInterval;
+var timer = 30;
+var scores = JSON.parse(localStorage.getItem("scores")) || [];
 
-var highscores = JSON.parse(localStorage.getItem("scores")) || [];
 
 // helper functions
+
+function resetVars() {
+    questionCounter = 0;
+    globalScore = 0;
+    clearInterval(timerInterval);
+    timer = 30;
+}
 
 // presents a question and the answer options
 function ask(i) {
@@ -92,62 +113,73 @@ function play() {
             if (button.textContent === qDict.answers[questionCounter]) {
                 console.log("correct");
                 globalScore++;
-                // button.style.backgroundColor = "" + correctColor + ";";
-                // button.style.transition = "0.2s ease;";
-                // button.style.backgroundColor = "" + buttonBgColor + ";";
-                // button.style.transition = null;
             } else {
                 console.log("incorrect");
-                globalTimer -= 2;
+                timer = timer - 2;
             }
 
             if (questionCounter < qDict.questions.length-1) { questionCounter++; play(); }
             else { form(globalScore); }
         })
     })
-    
 }
 
 
 // 
 function logScore(event) {
     event.preventDefault();
-    var key = nameEl.value;
-    localStorage.setItem(key, globalScore);
-    splash();
+    scores.unshift({name: nameEl.value, score: globalScore})
+    localStorage.setItem("scores", JSON.stringify(scores));
+    savedTextEl.style.display = "block";
+    formEl.removeEventListener("submit", logScore);
 }
+
+function showHighscores() {
+    var result = "";
+    var current = JSON.parse(localStorage.getItem("scores"));
+    if (current !== null) {
+        current.forEach(obj => {
+            var app = "Name: " + obj.name + " | Score: " + obj.score + "\n";
+            result = result + app;
+        });
+    } else {
+        result = "No highscores yet!";
+    }
+    window.alert(result);
+}
+
+
 
 function splash() {
     // show splash screen, hide other screens
     splashScreenEl.style.display = "block";
     quizScreenEl.style.display = "none";
     formScreenEl.style.display = "none";
+    resetVars();
 
-    startButtonEl.addEventListener("click", function() {
-        quiz();
-    });
 
-    // hsButtonEl[0].addEventListener("click", function() {
-    //     highscore();
-    // });
+    startButtonEl.addEventListener("click", quiz);
+
+    hsButtonEl.addEventListener("click", showHighscores);
 
 }
 
 function quiz() {
+
+    timer = 30;
+
     // show quiz screen, hide other screens
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "block";
     formScreenEl.style.display = "none";
 
-    var timer = 30;
-
-    setInterval(function() {
+    timerInterval = setInterval(function() {
         timerEl.textContent = "Timer: " + timer;
         if (timer > 0) {
             timer--;
         } else {
-            clearInterval();
-            form(globalScore);
+            clearInterval(timerInterval);
+            form();
             return;
         }
     }, 1000);
@@ -155,7 +187,10 @@ function quiz() {
     play();
 }
 
-function form(score) {
+function form() {
+
+    clearInterval(timerInterval);
+
     // show form screen, hide other screens
     splashScreenEl.style.display = "none";
     quizScreenEl.style.display = "none";

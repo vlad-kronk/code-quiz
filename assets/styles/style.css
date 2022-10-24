@@ -172,3 +172,10 @@ p {
     justify-self: flex-end;
     font-size: 2rem;
 }
+
+.form-content h2 {
+    display: none;
+    width: 500px;
+    text-align: center;
+    margin: 20px auto;
+}
