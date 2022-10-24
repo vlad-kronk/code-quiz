@@ -1,4 +1,4 @@
-# semantic-html-refactor
+# code-quiz
 
 ![](https://img.shields.io/badge/CSS-blue.svg?style=for-the-badge)
 ![](https://img.shields.io/badge/HTML-orange.svg?style=for-the-badge)
@@ -28,7 +28,7 @@ Please refer to the LICENSE in the repo.
 
 ## Deployed Page
 
-<a href="">Live Site</a>
+<a href="https://vlad-kronk.github.io/code-quiz/">Live Site</a>
 
 ## Contact
 
